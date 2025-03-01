@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -44,6 +43,18 @@ const Game = () => {
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Explore the principles of quantum computing through strategic and collaborative gameplay.
             </p>
+            <div className="mt-6 flex justify-center space-x-4">
+              <Link to="/games">
+                <Button size="lg">
+                  Play Online Now
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button variant="outline" size="lg">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
@@ -94,9 +105,9 @@ const Game = () => {
                   </ul>
                   
                   <div className="mt-6">
-                    <Link to="/login">
+                    <Link to="/games">
                       <Button>
-                        Sign Up to Play Online
+                        Play Online Now
                       </Button>
                     </Link>
                   </div>
@@ -271,10 +282,15 @@ const Game = () => {
                         </li>
                       </ul>
                       
-                      <div className="mt-6">
-                        <Link to="/login">
+                      <div className="mt-6 flex space-x-4">
+                        <Link to="/games">
                           <Button>
-                            Try Online Version
+                            Play Online Now
+                          </Button>
+                        </Link>
+                        <Link to="/login">
+                          <Button variant="outline">
+                            Sign Up
                           </Button>
                         </Link>
                       </div>

@@ -10,6 +10,8 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Game from "./pages/Game";
+import GameLobby from "./pages/GameLobby";
+import PlayGame from "./pages/PlayGame";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +29,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/game" element={<Game />} />
+            <Route path="/games" element={<GameLobby />} />
+            <Route path="/play/:gameId" element={<PlayGame />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
