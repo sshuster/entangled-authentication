@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+
+const API_URL = "http://localhost:5000/api";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +30,7 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      // This would connect to our Python backend in a real implementation
-      const response = await fetch("/api/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,28 +41,32 @@ const Login = () => {
         }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error(data.error || "Login failed");
       }
+      
+      // Store token in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       
       toast({
         title: "Login successful",
-        description: "Welcome back to Entanglion!",
+        description: `Welcome back, ${data.user.name}!`,
       });
       
-      // Redirect to dashboard/profile
+      // Redirect to profile
       navigate("/profile");
     } catch (error) {
       console.error("Login error:", error);
       
-      // For demo purposes, simulate successful login
-      setTimeout(() => {
-        toast({
-          title: "Login successful (Demo)",
-          description: "This is a demo. In production, this would connect to a real backend.",
-        });
-        navigate("/profile");
-      }, 1000);
+      // Show error message
+      toast({
+        title: "Login failed",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -83,8 +87,7 @@ const Login = () => {
     }
     
     try {
-      // This would connect to our Python backend in a real implementation
-      const response = await fetch("/api/register", {
+      const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,28 +99,32 @@ const Login = () => {
         }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error("Registration failed");
+        throw new Error(data.error || "Registration failed");
       }
+      
+      // Store token in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       
       toast({
         title: "Registration successful",
-        description: "Welcome to Entanglion!",
+        description: `Welcome to Entanglion, ${data.user.name}!`,
       });
       
-      // Redirect to dashboard/profile
+      // Redirect to profile
       navigate("/profile");
     } catch (error) {
       console.error("Registration error:", error);
       
-      // For demo purposes, simulate successful registration
-      setTimeout(() => {
-        toast({
-          title: "Registration successful (Demo)",
-          description: "This is a demo. In production, this would connect to a real backend.",
-        });
-        navigate("/profile");
-      }, 1000);
+      // Show error message
+      toast({
+        title: "Registration failed",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
